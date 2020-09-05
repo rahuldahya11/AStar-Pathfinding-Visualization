@@ -82,16 +82,16 @@ class Spot:
 
     def update_neighbors(self, grid):
         self.neighbors = []
-        if self.row < self.total_rows -1 and not [self.row + 1][self.col].is_barrier():  # DOWN
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():  # DOWN
             self.neighbors.append(grid[self.row + 1][self.col])
 
-        if self.row > 0 and not [self.row -1][self.col].is_barrier():  # UP
+        if self.row > 0 and not grid[self.row -1][self.col].is_barrier():  # UP
             self.neighbors.append(grid[self.row - 1][self.col])
 
-        if self.col < self.total_rows - 1 and not [self.row][self.col + 1].is_barrier():  # RIGHT
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():  # RIGHT
             self.neighbors.append(grid[self.row][self.col + 1])
 
-        if self.col > 0 and not [self.row][self.col - 1].is_barrier():  # LEFT
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():  # LEFT
             self.neighbors.append(grid[self.row][self.col - 1])
 
     def __lt__(self, other):
@@ -133,7 +133,7 @@ def algorithm(draw, grid, start, end):
             if temp_g_score < g_score[neighbor]:
                 came_from[neighbor] = current
                 g_score[neighbor] = temp_g_score
-                f_score[neighbor] = temp_g_score + h(neighbors.get_pos(), end.get_pos())
+                f_score[neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())
 
                 if neighbor not in open_set_hash:
                     count += 1
@@ -145,7 +145,9 @@ def algorithm(draw, grid, start, end):
 
         if current != start:
             current.make_closed()
-            
+
+    return False
+
 # Creating a grid
 def make_grid(rows, width):
     grid = []
@@ -233,8 +235,8 @@ def main(win, width):
                 if event.key == pygame.K_SPACE and not started:
                     for row in grid:
                         for spot in row:
-                            spot.update_neighbors()
-                    algorithm(lambda: draw(win, grid, ROWS, width). grid, start, end)
+                            spot.update_neighbors(grid)
+                    algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
     pygame.quit()
 
 main(WIN, WIDTH)
