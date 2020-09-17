@@ -2,6 +2,7 @@
 A python visualization of the A* path finding algorithm. It allows you to pick your start and end location and view the process of finding the shortest path.
 
 # Requirements
- Markup : * Python 3.x
-          * TKinter
-          * Pygame
+* Python 3.x
+* TKinter
+* Pygame
+
